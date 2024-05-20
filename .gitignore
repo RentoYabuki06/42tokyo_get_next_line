@@ -1,0 +1,5 @@
+test.txt
+Makefile
+*.a
+*.o
+get_next_line

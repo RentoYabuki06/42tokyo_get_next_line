@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:04 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/05/20 07:47:41 by yabukirento      ###   ########.fr       */
+/*   Updated: 2024/05/20 10:14:32 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,38 @@ static char	*read_to_newline(int fd, char *saved)
 		}
 		buffer[bytes_read] = '\0';
 		temp = saved;
-		saved = ft_strjoin(saved, buffer);
+		if (!saved)
+			saved = ft_strdup(buffer);
+		else
+			saved = ft_strjoin(saved, buffer);
 		free(temp);
 	}
 	free(buffer);
 	return (saved);
+}
+
+static char	*extract_line(char **saved)
+{
+	char	*line;
+	char	*new_saved;
+	size_t	len = 0;
+
+	if (!*saved || !**saved)
+		return (NULL);
+	while ((*saved)[len] && (*saved)[len] != '\n')
+		len++;
+	if ((*saved)[len] == '\n')
+		len++;
+	line = (char *)malloc((len + 1) * sizeof(char));
+	if (!line)
+		return (NULL);
+	line[len] = '\0';
+	while (len--)
+		line[len] = (*saved)[len];
+	new_saved = ft_strdup(*saved + len);
+	free(*saved);
+	*saved = new_saved;
+	return (line);
 }
 
 char	*get_next_line(int fd)
@@ -54,10 +81,35 @@ char	*get_next_line(int fd)
 	if (!saved)
 		return (NULL);
 	line = extract_line(&saved);
-	if (!*saved)
+	if (!line)
 	{
 		free(saved);
 		saved = NULL;
 	}
 	return (line);
+}
+
+
+#include <fcntl.h>
+#include <stdio.h>
+#include "get_next_line.h"
+
+int main(void)
+{
+    int fd = open("test.txt", O_RDONLY);
+    char *line;
+
+    if (fd == -1)
+    {
+        perror("Error opening file");
+        return (1);
+    }
+
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
 }

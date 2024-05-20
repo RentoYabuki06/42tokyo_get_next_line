@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:44 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/05/20 07:41:42 by yabukirento      ###   ########.fr       */
+/*   Updated: 2024/05/20 09:58:01 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,26 @@ size_t	ft_strlen(const char *str)
 		i++;
 	}
 	return (i);
+}
+
+size_t	ft_strlcpy(char *dest, const char *src, size_t destsize)
+{
+	size_t	i;
+	size_t	src_len;
+
+	i = 0;
+	src_len = ft_strlen(src);
+	if (destsize == 0)
+		return (src_len);
+	while (i < destsize - 1 && *src != '\0')
+	{
+		*dest = *src;
+		dest ++;
+		src ++;
+		i++;
+	}
+	*dest = '\0';
+	return (src_len);
 }
 
 char	*ft_strchr(const char *s, int c)
