@@ -1,33 +1,63 @@
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "get_next_line.h"
 
-int main(void)
-{
-    int fd = open("test.txt", O_RDONLY);
-    close(fd);
-    char *line;
-
-    if (fd == -1)
-    {
-        perror("Error opening file");
-        return (1);
-    }
-
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("%s", line);
-        free(line);
-    }
-
-    if (line == NULL)
-    {
-        printf("get_next_line returned NULL as expected for an empty file.\n");
-    }
-
-	// printf("------------");
-    return (0);
+__attribute__((destructor))
+static void destructor() {
+    system("leaks -q a.out");
 }
+
+int main()
+{
+	int fd = open("test.txt", O_RDONLY);
+	if (fd == -1)
+	{
+		perror("Error opening file");
+		return 1;
+	}
+	char *line = get_next_line(fd);
+	printf("[%s]\n", line);
+	if (line)
+	{
+		printf("[%s]\n", line);
+		free(line);
+	}
+	close(fd);
+	printf("------------\n");
+	return 0;
+}
+
+
+// int main(void)
+// {
+// 	printf("------------\n");
+//     int fd = open("test.txt", O_RDONLY);
+// 	printf("------------\n");
+//     close(fd);
+//     char *line;
+
+//     if (fd == -1)
+//     {
+//         perror("Error opening file\n");
+//         return (1);
+//     }
+// 	printf("...%d...\n", fd);
+// 	line = get_next_line(fd);
+//     while (line != NULL)
+//     {
+//         printf("[[%s]]", line);
+//         free(line);
+//     }
+
+//     if (line == NULL)
+//     {
+//         printf("get_next_line returned NULL as expected for an empty file.\n");
+//     }
+
+// 	// printf("------------");
+//     return (0);
+// }
 
 
 // #include <fcntl.h>

@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:44 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/05/20 11:49:09 by yabukirento      ###   ########.fr       */
+/*   Updated: 2024/07/15 19:42:32 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,25 @@ size_t	ft_strlen(const char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] != '\0')
-	{
+	while (str[i])
 		i++;
-	}
 	return (i);
 }
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t destsize)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	i;
-	size_t	src_len;
 
+	if (dstsize == 0)
+		return (ft_strlen(src));
 	i = 0;
-	src_len = ft_strlen(src);
-	if (destsize == 0)
-		return (src_len);
-	while (i < destsize - 1 && *src != '\0')
+	while (src[i] && i < dstsize - 1)
 	{
-		*dest = *src;
-		dest ++;
-		src ++;
+		dst[i] = src[i];
 		i++;
 	}
-	*dest = '\0';
-	return (src_len);
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -81,7 +75,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcpy(ans + len_s1, s2, len_s2 + 1);
 	return (ans);
 }
-
 char	*ft_strdup(const char *src)
 {
 	int		i;
