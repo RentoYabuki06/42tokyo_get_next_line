@@ -11,23 +11,16 @@ static void destructor() {
 int main()
 {
 	int fd = open("test.txt", O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Error opening file");
-		return 1;
-	}
-	char *line = get_next_line(fd);
-	printf("[%s]\n", line);
-	if (line)
-	{
-		printf("[%s]\n", line);
-		free(line);
-	}
-	close(fd);
-	printf("------------\n");
-	return 0;
+	char *line1 = get_next_line(fd);
+	char *line2 = get_next_line(fd);
+	char *line3 = get_next_line(fd);
+	printf("line1: [%s]\n", line1);
+	printf("line2: [%s]\n", line2);
+	printf("line3: [%s]\n", line3);
+	free(line1);
+	free(line2);
+	free(line3);
 }
-
 
 // int main(void)
 // {
