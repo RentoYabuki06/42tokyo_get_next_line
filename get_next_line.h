@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:04:04 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/07/15 22:05:23 by yabukirento      ###   ########.fr       */
+/*   Updated: 2024/07/20 14:42:39 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-// # if BUFFER_SIZE < 0 || BUFFER_SIZE > 2147483646
-// #  undef BUFFER_SIZE
-// #  define BUFFER_SIZE 0
-// # endif
-
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10024
 # endif
 
 char	*get_next_line(int fd);

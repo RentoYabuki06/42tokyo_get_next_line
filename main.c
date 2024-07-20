@@ -3,11 +3,6 @@
 #include <stdlib.h>
 #include "get_next_line.h"
 
-__attribute__((destructor))
-static void destructor() {
-    system("leaks -q a.out");
-}
-
 int main()
 {
 	int fd = open("test.txt", O_RDONLY);
@@ -20,6 +15,13 @@ int main()
 	free(line1);
 	free(line2);
 	free(line3);
+	system("leaks a.out");
+	return 0;
+}
+
+__attribute__((destructor))
+static void destructor() {
+    system("leaks -q a.out");
 }
 
 // int main(void)

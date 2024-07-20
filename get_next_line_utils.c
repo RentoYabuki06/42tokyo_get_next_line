@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:44 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/07/20 12:13:58 by yabukirento      ###   ########.fr       */
+/*   Updated: 2024/07/20 15:15:39 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*ft_strdup(const char *src)
 	while (src[len])
 		len++;
 	dest = (char *)malloc((len + 1) * sizeof(char));
-	if (dest == NULL)
+	if (!dest)
 		return (NULL);
 	i = 0;
 	while (i < len)

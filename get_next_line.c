@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:04 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/07/20 12:15:00 by yabukirento      ###   ########.fr       */
+/*   Updated: 2024/07/20 15:09:48 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,33 @@ static char	*read_to_newline(int fd, char *saved, char *buffer)
 	return (saved);
 }
 
-static char	*extract_line(char *saved, size_t len, char *line)
+static char	*extract_line(char *saved, size_t len)
 {
 	size_t	i;
+	char	*line;
 
 	i = 0;
+	line = (char *)malloc((len + 2) * sizeof(char));
 	if (!line)
-		return (NULL);
+		return (free(saved), NULL);
 	while (i <= len)
 	{
 		line[i] = saved[i];
 		i++;
 	}
-	line[i + 1] = '\0';
+	line[i] = '\0';
 	return (line);
+}
+
+char	*ft_shift_pointer(size_t len, char *saved, char *line)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(saved + len + 1);
+	if (!tmp)
+		return (free(saved), free(line), NULL);
+	free(saved);
+	return (tmp);
 }
 
 char	*get_next_line(int fd)
@@ -59,13 +72,14 @@ char	*get_next_line(int fd)
 	static char	*saved;
 	char		*line;
 	char		*buffer;
-	char		*tmp;
 	size_t		len;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!saved)
 		saved = ft_strdup("");
+	if (!saved)
+		return (NULL);
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
@@ -75,10 +89,7 @@ char	*get_next_line(int fd)
 	len = 0;
 	while (saved[len + 1] && saved[len] != '\n')
 		len++;
-	line = (char *)malloc((len + 2) * sizeof(char));
-	line = extract_line(saved, len, line);
-	tmp = ft_strdup(saved + len + 1);
-	free(saved);
-	saved = tmp;
+	line = extract_line(saved, len);
+	saved = ft_shift_pointer(len, saved, line);
 	return (line);
 }
