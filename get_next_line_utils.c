@@ -6,7 +6,7 @@
 /*   By: yabukirento <yabukirento@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 19:05:44 by yabukirento       #+#    #+#             */
-/*   Updated: 2024/07/15 21:32:08 by yabukirento      ###   ########.fr       */
+/*   Updated: 2024/07/20 12:13:58 by yabukirento      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcpy(ans + len_s1, s2, len_s2 + 1);
 	return (ans);
 }
+
 char	*ft_strdup(const char *src)
 {
 	int		i;
